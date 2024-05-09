@@ -1,0 +1,26 @@
+  body {
+  background-color: black;
+      }
+  label {
+    color: gray;
+  }
+  h2 {
+    color: orange;
+  }
+            button {
+            display: inline-block;
+            width: 100%;
+            max-width: 200px;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: grey;
+            color: orange;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        button:hover {
+            background-color: orange;
+        }
