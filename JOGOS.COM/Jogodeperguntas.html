@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página em Branco</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-image: url('texture.jpg'); /* substitua 'texture.jpg' pelo caminho da sua imagem de textura */
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        padding: 20px;
+        position: relative;
+    }
+    #container {
+        width: 400px;
+        background-color: rgba(255, 255, 255, 0.8);
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        position: relative;
+    }
+    #question {
+        font-size: 1.2em;
+        margin-bottom: 20px;
+    }
+    #answer {
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        width: calc(100% - 20px);
+    }
+    #submitBtn {
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: calc(100% - 20px);
+    }
+    #submitBtn:hover {
+        background-color: #45a049;
+    }
+    #correctAnswers {
+        display: inline-block;
+        background-color: #4CAF50;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 50%;
+    }
+    .square {
+        width: 50px;
+        height: 50px;
+        background-image: url('texture173.jpg'); /* substitua 'texture.jpg' pelo caminho da sua imagem de textura */
+        background-size: cover;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        animation: moveSquare 2s linear infinite alternate;
+    }
+    .square.top {
+        bottom: auto;
+        top: 0;
+        animation: moveSquare 2s linear infinite alternate;
+    }
+    @keyframes moveSquare {
+        from {
+            left: 0;
+        }
+        to {
+            left: calc(100% - 50px);
+        }
+    }
+</style>
+</head>
+<body>
+<div class="square"></div>
+<div id="container">
+    <h1>Jogo de Perguntas e Respostas</h1>
+    <div id="question"></div>
+    <input type="text" id="answer" placeholder="Sua resposta">
+    <button id="submitBtn" onclick="checkAnswer()">Verificar</button>
+    <p>Respostas corretas: <span id="correctAnswers">0</span></p>
+</div>
+<div class="square top"></div>
+
+<script>
+    var questions = [
+        {
+            question: "Qual é a capital do Brasil?",
+            answer: "brasília"
+        },
+        {
+            question: "Quem escreveu 'Dom Quixote'?",
+            answer: "miguel de cervantes"
+        },
+        {
+            question: "Qual é o maior planeta do sistema solar?",
+            answer: "júpiter"
+        }
+    ];
+
+    var currentQuestionIndex = 0;
+    var correctAnswers = 0;
+
+    function displayQuestion() {
+        document.getElementById("question").textContent = questions[currentQuestionIndex].question;
+    }
+
+    function checkAnswer() {
+        var userAnswer = document.getElementById("answer").value.toLowerCase();
+        var correctAnswer = questions[currentQuestionIndex].answer;
+
+        if (userAnswer === correctAnswer) {
+            alert("Resposta correta!");
+            correctAnswers++;
+            document.getElementById("correctAnswers").textContent = correctAnswers;
+        } else {
+            alert("Resposta incorreta. Tente novamente.");
+        }
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+        } else {
+            alert("Você respondeu todas as perguntas!");
+            currentQuestionIndex = 0;
+            correctAnswers = 0;
+            document.getElementById("correctAnswers").textContent = correctAnswers;
+            displayQuestion();
+        }
+
+        document.getElementById("answer").value = ""; // Limpa o campo de resposta
+    }
+
+    // Iniciar o jogo exibindo a primeira pergunta
+    displayQuestion();
+</script>
+</body>
+</html>

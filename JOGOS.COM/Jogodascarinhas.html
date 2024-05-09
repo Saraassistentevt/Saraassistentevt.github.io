@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jogo de Achar a Carinha</title>
+<style>
+    .emojis {
+        font-size: 3em;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<h1>Jogo de Achar a Carinha</h1>
+<div id="gameArea">
+    <!-- Área de jogo -->
+</div>
+
+<script>
+// Define as fases do jogo
+var fases = [
+    ["😀", "😁", "😂", "🤣", "😃"], // Fase 1
+    ["😄", "😅", "😆", "😇", "😉"], // Fase 2
+    // Você pode adicionar mais fases aqui
+];
+
+// Define a fase atual
+var faseAtual = 0;
+
+// Inicia o jogo
+iniciarJogo();
+
+function iniciarJogo() {
+    exibirFase(faseAtual);
+}
+
+function exibirFase(fase) {
+    var gameArea = document.getElementById("gameArea");
+    gameArea.innerHTML = ""; // Limpa a área de jogo
+
+    // Embaralha as carinhas da fase atual
+    var emojisFaseAtual = fases[fase].slice(); // Copia o array
+    emojisFaseAtual.sort(function() {
+        return 0.5 - Math.random();
+    });
+
+    // Adiciona as carinhas da fase atual
+    emojisFaseAtual.forEach(function(emoji) {
+        var span = document.createElement("span");
+        span.textContent = emoji;
+        span.className = "emojis";
+        span.onclick = function() {
+            checkEmoji(this);
+        };
+        gameArea.appendChild(span);
+    });
+}
+
+function checkEmoji(emoji) {
+    if (emoji.innerHTML === fases[faseAtual][0]) {
+        alert("Parabéns! Você encontrou a carinha certa!");
+        // Avança para a próxima fase se houver
+        if (faseAtual < fases.length - 1) {
+            faseAtual++;
+            exibirFase(faseAtual);
+        } else {
+            alert("Você completou todas as fases! Parabéns!");
+        }
+    } else {
+        alert("Tente novamente! Essa não é a carinha certa.");
+    }
+}
+</script>
+</body>
+</html>

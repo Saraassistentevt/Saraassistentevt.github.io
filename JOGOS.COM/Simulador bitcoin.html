@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Conta</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ff8800; /* Cor de fundo padrão */
+      background-image: url('***.jpg'); /* Textura de fundo */
+      background-size: cover; /* Ajusta o tamanho da imagem de fundo */
+      position: relative; /* Para uso do position absolute no elemento filho */
+    }
+    .container {
+      max-width: 600px;
+      margin: 10px auto;
+      background-color: #0000;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+      position: relative; /* Para uso do position absolute no elemento filho */
+    }
+    h1 {
+      color: yellow;
+      text-align: center;
+      margin-bottom: 120px; /* Espaçamento abaixo do título */
+    }
+    .info-block {
+      margin-bottom: 20px; /* Espaçamento entre blocos de informação */
+    }
+    .info-block p {
+      margin: 10px 0;
+      font-size: 16px; /* Tamanho do texto */
+    }
+    .info-block strong {
+      font-weight: bold;
+    }
+    /* Exemplo de classes para personalização */
+    .nome-titular {
+      color: #000000; /* Cor do texto */
+      font-size: 21px; /* Tamanho do texto */
+      position: absolute; /* Posicionamento absoluto */
+      top: -15px; /* Distância do topo */
+      left: 20px; /* Distância da esquerda */
+    }
+    .numero-conta {
+      color: green; /* Cor do texto */
+      font-size: 16px; /* Tamanho do texto */
+    }
+    .saldo-disponivel {
+      color: #000000; /* Cor do texto */
+      font-size: 20px; /* Tamanho do texto */
+      position: absolute; /* Posicionamento absoluto */
+      top: -15px; /* Distância do topo */
+      right: 5px; /* Distância da direita */
+    }
+    /* Estilo para o ícone */
+    .icon {
+      width: 30px; /* Largura do ícone */
+      height: 30px; /* Altura do ícone */
+      margin-right: 10px; /* Espaçamento à direita do ícone */
+      vertical-align: middle; /* Alinhar verticalmente */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1><img src="jogo6712.png" alt="Ícone" class="icon">bitconix</h1>
+    <!-- Bloco separado para o Nome do Titular -->
+    <style>
+  .nome-titular {
+    cursor: pointer; /* Muda o cursor para indicar que o texto é clicável */
+  }
+  .edit-input {
+    display: none; /* Inicialmente oculta a barra de edição */
+  }
+</style>
+</head>
+<body>
+
+<div class="nome-titular" id="nome-titular">
+  <p id="texto-titular"><strong></strong> <span></span><span id="nome-texto">Usuário bit</span></p>
+  <input type="text" id="input-edit" class="edit-input">
+</div>
+
+<script>
+  var nomeTitular = document.getElementById("nome-titular");
+  var nomeTexto = document.getElementById("nome-texto");
+  var inputEdit = document.getElementById("input-edit");
+
+  // Adiciona um evento de clique ao elemento <p> com id "texto-titular"
+  nomeTitular.addEventListener("click", function() {
+    // Esconde o texto e mostra a barra de edição
+    nomeTexto.style.display = "none";
+    inputEdit.style.display = "inline-block";
+    // Coloca o texto atual dentro da barra de edição
+    inputEdit.value = nomeTexto.textContent;
+    // Coloca o foco na barra de edição
+    inputEdit.focus();
+  });
+
+  // Adiciona um evento de perda de foco à barra de edição
+  inputEdit.addEventListener("blur", function() {
+    // Atualiza o texto com o valor da barra de edição
+    nomeTexto.textContent = inputEdit.value;
+    // Esconde a barra de edição e mostra o texto atualizado
+    inputEdit.style.display = "none";
+    nomeTexto.style.display = "inline";
+    // Salva o novo nome em um banco de dados ou em outro local, se necessário
+    // Aqui você pode adicionar a lógica para salvar as alterações feitas
+  });
+</script>
+
+    <div class="numero da conta">
+      <p><strong>Conta:</strong> <span class="numero-conta">13869527</span></p>
+    </div>
+  </div>
+
+
+
+<style>
+    #bitcoin-price-container {
+        position: fixed;
+        bottom: 590px;
+        left: 20px;
+        display: flex;
+        align-items: center;
+    }
+    #bitcoin-price {
+        font-size: 24px;
+        font-weight: bold;
+        color: #333;
+        margin-right: 10px;
+    }
+    .indicator {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    .up {
+        background-color: green;
+    }
+    .down {
+        background-color: red;
+    }
+</style>
+</head>
+<body>
+<div id="bitcoin-price-container">
+    <div id="bitcoin-price">bit 0000.0000</div>
+    <div class="indicator up"></div>
+</div>
+<script>
+    function randomFloat(min, max) {
+        return (Math.random() * (max - min) + min).toFixed(4);
+    }
+
+    let currentPrice = randomFloat(000000, 999999999999); // gerar um número aleatório inicial
+
+    setInterval(() => {
+        const change = randomFloat(-50, 50); // mudança de preço aleatória
+        currentPrice = parseFloat(currentPrice) + parseFloat(change); // aplicar a mudança ao preço atual
+        const formattedPrice = 'bit   ' + currentPrice.toFixed(4); // formatar o preço com 3 casas decimais (centavos)
+        document.getElementById('bitcoin-price').innerText = formattedPrice; // atualizar o elemento DOM com o novo preço formatado
+        
+        const indicator = document.querySelector('.indicator');
+        if (change > 0) {
+            indicator.className = 'indicator up';
+        } else {
+            indicator.className = 'indicator down';
+        }
+    }, 2000); // atualiza a cada 2 segundos
+</script>
+
+
+    <style>
+        .chart-container {
+            width: 390px;
+            height: 470px;
+            position: relative;
+            margin: auto;
+            border: 1px solid #ccc;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            transform-origin: top left;
+            background-color: black; /* Define o fundo do canvas como preto */
+        }
+        .price-info {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chart-container">
+        <canvas id="cryptoChart"></canvas>
+        <div class="price-info" id="priceInfo"></div>
+    </div>
+
+    <script>
+        // Variáveis para ajustar o gráfico
+        const chartWidth = 370;
+        const chartHeight = 400;
+        const candleWidth = 10;
+        const candleColor = '#0000ff'; // Azul
+        const rotationAngle = 0;
+
+        // Função para gerar dados de vela aleatórios
+        function generateRandomCandleData(lastClose) {
+            const open = lastClose || 100; // Se não houver preço anterior, assume 100 como abertura
+            const close = open + Math.random() * 20 - 10; // Preço de fechamento aleatório próximo ao preço de abertura
+            const high = Math.max(open, close) + Math.random() * 20; // Preço máximo aleatório
+            const low = Math.min(open, close) - Math.random() * 20; // Preço mínimo aleatório
+            return { open, close, high, low };
+        }
+
+        // Função para desenhar uma vela
+        function drawCandle(ctx, candleData, x, scaleY) {
+            const bodyHeight = Math.abs(candleData.close - candleData.open) * scaleY;
+            const bodyTop = Math.min(candleData.open, candleData.close) * scaleY;
+            const wickTop = candleData.high * scaleY;
+            const wickBottom = candleData.low * scaleY;
+
+            ctx.fillStyle = candleData.close > candleData.open ? candleColor : 'red'; // Define a cor com base na direção da vela
+
+            ctx.fillRect(x, bodyTop, candleWidth, bodyHeight); // Desenha o corpo da vela
+            ctx.fillRect(x + candleWidth / 2, wickTop, 1, bodyTop - wickTop); // Desenha o pavio superior
+            ctx.fillRect(x + candleWidth / 2, bodyTop + bodyHeight, 1, wickBottom - bodyTop - bodyHeight); // Desenha o pavio inferior
+        }
+
+        // Função para desenhar o gráfico de velas
+        function drawCandlestickChart(canvas, candleData) {
+            const ctx = canvas.getContext('2d');
+            const scaleY = canvas.height / Math.max(...candleData.map(data => data.high));
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2);
+            ctx.rotate(rotationAngle * Math.PI / 180);
+            ctx.translate(-canvas.width / 2, -canvas.height / 2);
+
+            candleData.forEach((data, index) => {
+                drawCandle(ctx, data, index * candleWidth, scaleY);
+            });
+
+            ctx.restore();
+        }
+
+        // Função para atualizar o gráfico
+        function updateChart() {
+            const canvas = document.getElementById('cryptoChart');
+            canvas.width = chartWidth;
+            canvas.height = chartHeight;
+
+            const candleData = Array.from({ length: 50 }, () => generateRandomCandleData());
+            const lastClose = drawCandlestickChart(canvas, candleData);
+            const priceInfo = document.getElementById('priceInfo');
+
+            // Verifica se o preço está subindo, descendo ou estável
+            let trend;
+            if (candleData[0].close > lastClose) {
+                trend = 'Descendo';
+            } else if (candleData[0].close < lastClose) {
+                trend = 'Subindo';
+            } else {
+                trend = 'Estável';
+            }
+            priceInfo.textContent = `Preço: ${candleData[0].close.toFixed(2)} (${trend})`;
+
+            setTimeout(() => {
+                const updatedCandleData = Array.from({ length: 1 }, () => generateRandomCandleData(lastClose));
+                drawCandlestickChart(canvas, updatedCandleData.concat(candleData.slice(0, -1)));
+                updateChart();
+            }, 2000); // Atualiza a cada 2 segundos
+        }
+
+        // Inicia a atualização do gráfico
+        updateChart();
+    </script>
+
+  <style>
+    body {
+      position: relative;
+    }
+
+    #money-display {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+    }
+
+    /* Estilo do botão */
+    button {
+      background-color: #0000;
+      color: #0000;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    /* Seu CSS existente */
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Seu conteúdo HTML existente -->
+
+    <!-- Elemento onde o valor do dinheiro será exibido -->
+    <div id="money-display" class="saldo-disponivel">
+      <p><strong>R$</strong> <span>00,00</span></p>
+    </div>
+
+    <!-- Botão para aumentar o valor do dinheiro -->
+    <button onclick="aumentarDinheiro()">Aumentar Dinheiro</button>
+  </div>
+
+  <script>
+    // Função para aumentar o valor do dinheiro
+    function aumentarDinheiro() {
+      // Elemento onde o valor do dinheiro está sendo exibido
+      const moneyDisplay = document.getElementById('money-display');
+
+      // Obter o valor atual do dinheiro
+      const currentMoney = parseFloat(moneyDisplay.querySelector('span').textContent.replace(',', '.'));
+
+      // Aumentar o valor do dinheiro (por exemplo, em 100)
+      const newMoney = currentMoney + 50;
+
+      // Atualizar o valor do dinheiro na tela
+      moneyDisplay.querySelector('span').textContent = newMoney.toFixed(2).replace('.', ',');
+    }
+  </script>
+  <script>
+    alert ("No canto inferior esquerdo tem um botão invisível para alterar o saldo (€) do simulador")
+    alert ("No canto superior esquerdo clique em usuário para alterar o user")
+  </script>
+</body>
+</html>
+
+
+
+
+   
+   
