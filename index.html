@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARA: Assistente Virtual</title>
+    <style>
+        body {
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f2f2f2;
+            position: relative;
+            max-width: 95%;
+            overflow-y: auto;
+        }
+.chat-container {
+    flex: 1;
+    width: 100%;
+    border: -0px solid #ccc;
+    overflow-y: scroll;
+    padding: 10px;
+    background-image: url('img-vd-ad/SARAGIF.gif');
+    background-position: center;
+    background-size: cover;
+}
+        
+           
+        .user-input-container {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #000000;
+        }
+
+        #user-input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        #send-button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #send-button:hover {
+            background-color: #45a049;
+        }
+
+.user-message {
+    max-width: 80%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    color: whitesmoke;
+    text-align: right;
+}
+        .bot-message {
+            text-align: left;
+            color: white;
+        }
+        
+        #help-button {
+            position: absolute;
+            top: -7px;
+            right: 28px;
+            padding: 8px 16px;
+            background-color: #000000;
+            color: #00ff00;
+            border: none;
+            cursor: pointer;
+        }
+        .help-popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #f9f9f9;
+            padding: 65px;
+            border: 5px solid black;
+            z-index: 999;
+        }
+        .help-popup p {
+            margin-bottom: 10px;
+          
+    position: center;
+    top: 0;
+    left: 0;
+    font-size: 18px;
+    color: #333;
+    background-color: #fff;
+    padding: 5px;
+  }
+</style>
+</head>
+<body>
+<div id="data-hora"></div>
+
+<script>
+function atualizarDataHora() {
+  var agora = new Date();
+  var dia = agora.getDate().toString().padStart(2, '0');
+  var mes = (agora.getMonth() + 1).toString().padStart(2, '0');
+  var ano = agora.getFullYear();
+  var hora = agora.getHours().toString().padStart(2, '0');
+  var minuto = agora.getMinutes().toString().padStart(2, '0');
+  var segundo = agora.getSeconds().toString().padStart(2, '0');
+  
+  var dataHoraString = dia + '/' + mes + '/' + ano + ' ' + hora + ':' + minuto + ':' + segundo;
+  
+  var dataHoraElement = document.getElementById('data-hora');
+  dataHoraElement.textContent = dataHoraString;
+  dataHoraElement.style.color = 'grey';
+}
+
+setInterval(atualizarDataHora, 1000);
+
+window.onload = atualizarDataHora;
+</script>
+</body>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #000000;
+        }
+        .menu {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100%;
+            width: 245px;
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            box-sizing: border-box;
+            transition: transform 0.3s ease;
+            transform: translateX(245px);
+            z-index: 1000;
+            overflow-y: scroll;
+            }
+
+        .menu.show {
+            transform: translateX(0);
+        }
+
+        .menu ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            color: darkgrey;
+        }
+
+        .menu ul li {
+            margin-bottom: 15px;
+        }
+
+        .menu ul li a {
+            text-decoration: none;
+            color: red;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .menu ul li a:hover {
+            color: deeppink;
+        }
+        .menu-toggle {
+            position: fixed;
+            top: 5px;
+            right: 5px;
+            cursor: pointer;
+            z-index: 999;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        .menu-toggle:hover {
+            background-color: #555;
+        }
+        .menu-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background-color: #fff;
+            margin-bottom: 4px;
+            border-radius: 2px;
+            transition: transform 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+        .menu-toggle.open span:nth-child(1) {
+            transform: translateY(6px) rotate(45deg);
+        }
+
+        .menu-toggle.open span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .menu-toggle.open span:nth-child(3) {
+            transform: translateY(-6px) rotate(-45deg);
+        }
+        .audio-player {
+            margin-top: 20px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+        }
+        .percentage {
+            color: #ffd700;
+            font-size: 24px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        .menu-image {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .menu-image img {
+            max-width: 100%;
+            height: auto;
+        }
+        p13 {
+          color: red;
+        }
+        p14 {
+          color: grey;
+        }
+       p0 {
+          color: firebrick;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="menu" id="menu">
+        <ul>
+            <h2>Menu</h2>
+            <li><a href="SARA_NAVEGATION.html">PESQUISAR</a></li>
+            <li><a href="pagina_em_branco.html">Sobre IA</a></li>
+            <li><a href="#.html">Serviços</a></li>
+            <li><a href="mailto:Rfpds4880@gmail.com?subject=Olá usuário, em que podemos ajudá-lo?&body=">Contato</a></li>
+            <li><a href="https://g1.globo.com/ultimas-noticias/">Notícias</a></li>
+            <li><a href="Menu de ferramentas.html">ferramentas</a></li>
+            <li><a href="Menudejogos.html">Jogos</a></li>
+        </ul>
+        <div class="audio-player">
+            <audio controls>
+                <source src="img-vd-ad/Sara.mp3" type="audio/mpeg">
+                Seu navegador não suporta o elemento de áudio.
+            </audio>
+        </div>
+        <div class="percentage">
+            <p style="color: red;">Capacidade IA °○●734%</p>
+        </div>
+        <p style="color: grey;">Site em desenvolvimento</p>
+
+        <div class="menu-image">
+            <img src="pix.jpg" alt=" Image">
+        </div>
+        </head>
+<body>
+    <p0 onclick="navigator.clipboard.writeText('rfpds4880@gmail.com').then(() => alert('Texto copiado para a área de transferência!')).catch(err => console.error('Falha ao copiar texto: ', err));">Clique aqui para copiar</p0>
+</body>
+<p0>Chave PIX: rfpds4880@gmail.com</p0>
+<p0>Nome: RfPds</p0>
+<p0>Tipo de Chave: Email</p0>
+<p0>Agradeço pela contribuição, sua contribuição fará nossa ferramenta crescer!</p0>
+<p13>CONTRIBUIDORES:<br>----'6'----</p13>
+<br>
+<p14>Desenvolvedor: RFPDS</p14>
+<style>
+  li a {
+    color: blue;
+  }
+</style>
+ <li><a href="001/LICENSE/LICENS.TXT">TERMO DE USO</a></li>
+</body>
+</div>
+
+<div class="menu-toggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<script>
+    function toggleMenu() {
+        var menu = document.getElementById("menu");
+        var menuToggle = document.querySelector(".menu-toggle");
+        menu.classList.toggle("show");
+        menuToggle.classList.toggle("open");
+    }
+
+    document.addEventListener("click", function(event) {
+        var menu = document.getElementById("menu");
+        var menuToggle = document.querySelector(".menu-toggle");
+
+        if (!menu.contains(event.target) && !menuToggle.contains(event.target)) {
+            menu.classList.remove("show");
+            menuToggle.classList.remove("open");
+        }
+    });
+</script>
+
+    </style>
+</head>
+<body>
+    <div class="chat-container" id="chat-container">
+        <div class="bot-message"><p style="color: Fuchsia;">Olá! Me chamo Sara, Sou sua assistente.</p></div>
+    </div>
+    <div class="user-input-container">
+        <input type="text" id="user-input" placeholder="Digite sua mensagem...">
+        <button id="send-button" onclick="sendMessage()">Enviar</button>
+    </div>
+    <button id="help-button" onclick="showHelp()">Ajuda</button>
+    <div id="help-popup" class="help-popup">
+        <p style="color: #ff00ff;">Tire suas dúvidas!</p><p>Este site e seu conteúdo são protegidos por direitos autorais e são de propriedade de [RFPDS]. Qualquer uso não autorizado, incluindo a reprodução, modificação ou distribuição, é estritamente proibido.</p>
+        <p style="color: black;">Outras funções Disponível em breve!</p><p>Contate ao Desenvolvedor<a href='mailto:rfpds4880@gmail.com?subject=Olá gostaria de obter ajuda com?&body="Oque deseja?"' target='_blank'> link</a> (rfpds4880@gmail.com) Para nós ajudar a melhorar nossa assistente, der sua opinião e conhecimento para que a nossa assistente possa aprender com vocês!</p>
+        <p style="color: grey;">RfStudio</p>
+        <pre>
+
+
+        </pre>
+        <button onclick="closeHelp()">Fechar</button>
+    </div>
+
+
+    
+    <script>
+ 
+        function sendMessage() {
+            var userInput = document.getElementById("user-input").value;
+            var chatContainer = document.getElementById("chat-container");
+
+            var userMessageElement = document.createElement("div");
+            userMessageElement.classList.add("user-message");
+            userMessageElement.innerHTML = userInput;
+            chatContainer.appendChild(userMessageElement);
+
+            var botMessageElement = document.createElement("div");
+            botMessageElement.classList.add("bot-message");
+            var botResponse = getBotResponse(userInput);
+            botMessageElement.innerHTML = botResponse;
+            chatContainer.appendChild(botMessageElement);
+
+            document.getElementById("user-input").value = "";
+
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showHelp() {
+            document.getElementById("help-popup").style.display = "block";
+        }
+
+        function closeHelp() {
+            document.getElementById("help-popup").style.display = "none";
+            
+            
+        }
+    </script>
+<style>
+        .contador {
+            position: fixed;
+            top: 22px;
+            left: 12px;
+            background-color: 0000;
+            color: grey;
+            padding: -5px 10px;
+            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+    <div class="contador">Viws: <span id="numero">0</span></div>
+
+    <script>
+        function atualizarContador() {
+            let numeroAtual = parseInt(document.getElementById('numero').textContent);
+            let novoNumero = numeroAtual + Math.floor(Math.random() * 1500) -500; 
+            document.getElementById('numero').textContent = novoNumero;
+        }
+        window.onload = atualizarContador;
+    </script>
+
+    <style>
+        .welcome-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 24px;
+            z-index: 9999;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        #close-button {
+            background-color: #ff0000;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        body {
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="overlay"></div>
+
+    <div class="welcome-message">
+        <h3 style="color: blue;">Bem-vindo ao futuro!</h3>
+        <p>Site em desenvolvimento</p>
+        <button id="close-button" onclick="closeWelcomeMessage()">Fechar</button>
+    </div>
+
+    <script>
+        function closeWelcomeMessage() {
+            var welcomeMessage = document.querySelector(".welcome-message");
+            var overlay = document.querySelector(".overlay");
+            welcomeMessage.style.display = "none";
+            overlay.style.display = "none";
+        }
+    </script>
+
+<script src="001/002/responses.js"></script>
+<link rel="stylesheet" href="index.css">
+  <link rel="manifest" href="/manifest.json">
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/service-worker.js')
+        .then(registration => {
+          console.log('Service Worker registrado com sucesso:', registration);
+        })
+        .catch(error => {
+          console.log('Falha ao registrar o Service Worker:', error);
+        });
+    });
+  }
+</script>
+  
+<footer style="background-image: url('1.gif'); background-color: #000000; color: grey; padding: 20px; text-align: center; font-family: Arial, sans-serif; width: 95%; height: 85px;">
+    <h5>© 2024 RfStudio<br>SARA Pode cometer erros: Considere verificar informações importantes.</h5>
+</footer>
+   </body>
+</html>
+    
+  

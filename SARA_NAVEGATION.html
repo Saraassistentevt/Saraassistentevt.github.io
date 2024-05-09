@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Sara</title>
+    <style>
+        body {
+            background-color: #000000;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            margin: 0 1;
+            flex-direction: column;
+            position: relative;
+            padding: 0;
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .logo {
+            width: 170px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 20px;
+            width: 260px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .search-button {
+            background-color: skyblue;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-size: 16px;
+        }
+
+        .search-button:hover {
+            background-color: #45a049;
+        }
+
+        .search-engine-select {
+            width: 50px;
+            padding: 5px;
+            border-radius: 20px;
+            outline: none;
+            font-size: 16px;
+            color: red;
+            background-color: black;
+            margin-left: -60px;
+            margin-top: -380px;
+        }
+
+        .moving-square {
+            width: 50px;
+            height: 50px;
+            background-color: #0000;
+            position: absolute;
+            bottom: 10px;
+            animation: moveSquare 2s ease-in-out infinite alternate;
+            background-image: url('10.gif');
+            background-size: cover;
+        }
+
+        footer {
+            background-color: black;
+            color: grey;
+            padding: 10px;
+            width: 100%;
+            position: absolute;
+            bottom: 0;
+            text-align: center;
+        }
+
+        .content {
+            width: 100%;
+            overflow-y: auto;
+        }
+
+        .links-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .links-container a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            padding: 5px;
+            border: 1px solid white;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .links-container a:hover {
+            background-color: skyblue;
+        }
+
+        .advertisement {
+            background-color: #0000;
+            color: white;
+            padding: 60px 20;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .advertisement h2 {
+            margin-bottom: 10px;
+        }
+        
+        @keyframes moveSquare {
+            from {
+                left: 0;
+            }
+            to {
+                left: calc(100% - 50px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <img class="logo" src="img-vd-ad/logo66.png" alt="Logo">
+    <form class="search-form" id="search-form" action="https://www.google.com/search" method="GET" target="_self">
+        <input class="search-input" type="text" name="q" placeholder="Pesquisar na Web...">
+        <button class="search-button" type="submit">Pesquisar</button>
+        <select class="search-engine-select" id="search-engine-select" onchange="changeSearchEngine()">
+            <option value="https://www.google.com/search">Google</option>
+            <option value="https://www.duckduckgo.com/">DuckDuckGo</option>
+            <option value="https://support.torproject.org/tbb/">Tor</option>
+        </select>
+    </form>
+
+    <div class="content">
+        <div class="links-container">
+            <a href="https://m.youtube.com/">Yout</a>
+            <a href="https://m.facebook.com/">Faceb</a>
+            <a href="https://www.instagram.com/">insta</a>
+            <a href="https://gamegameplayopp.store/">Game</a>
+            <a href="https://rfpds.github.io/">Down</a>
+        </div>
+
+        <div class="advertisement">
+            <h2>Notícias</h2>
+            <iframe src="https://g1.globo.com/ultimas-noticias/" width="95%" height="700px" frameborder="0"></iframe>
+            <h2>...</h2>
+            <iframe src="https://www.cnnbrasil.com.br/" width="95%" height="700px" frameborder="0"></iframe>
+            <h2>Tvs</h2>
+            <iframe src="https://www.cxtv.com.br/" width="95%" height="700px" frameborder="0"></iframe>
+        </div>
+    </div>
+
+    <div class="moving-square"></div>
+
+    <footer>
+        <p>&copy; 2024 RfStudio</p>
+    </footer>
+
+    <script>
+        window.onscroll = function() {
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            }
+        };
+
+        function changeSearchEngine() {
+            var select = document.getElementById('search-engine-select');
+            var selectedValue = select.options[select.selectedIndex].value;
+            document.getElementById('search-form').setAttribute('action', selectedValue);
+        }
+    </script>
+</body>
+</html>
+    

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terminal Simulator</title>
+<p>Terlux</p>
+<style>
+  body {
+    font-family: monospace;
+    background-color: #222;
+    color: #fff;
+    padding: 20px;
+  }
+  #terminal {
+    width: 100%;
+    height: 400px;
+    background-color: #111;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 5px;
+  }
+  #input {
+    width: calc(100% - 20px);
+    background-color: transparent;
+    border: none;
+    color: #fff;
+    font-family: monospace;
+    outline: none;
+  }
+  p {
+    color: grey;
+  }
+</style>
+</head>
+<body>
+<div id="terminal"></div>
+<input type="text" id="input" placeholder="Digite um comando...">
+<script>
+  const terminal = document.getElementById('terminal');
+  const input = document.getElementById('input');
+
+  // Objeto contendo os comandos e suas respostas correspondentes
+  const commands = {
+    main: 'Comandos disponíveis:\n- main: Mostra esta lista de comandos\n- time: mostrar horas\n- date: mostra data\n- clear: Limpa o terminal\n- greet: Saudação amigável\n- date: Mostra a data atual\n- time: Mostra o horário atual\n- weather: Mostra a previsão do tempo\n- version: Mostra a versão do sistema\n- list: Lista os arquivos no diretório atual\n- info: Mostra informações do sistema\n- settings: Abre as configurações\n- contacts: Mostra lista de contatos\n- calc: Abre a calculadora\n- calendar: Abre o calendário\n- tasks: Mostra lista de tarefas\n- notes: Abre o bloco de notas\n- email: Abre o cliente de email\n- music: Reproduz música\n- movies: Mostra lista de filmes\n- games: Abre a seleção de jogos\n- news: Mostra as últimas notícias\n- translate: Traduz texto\n- search: Realiza uma busca na web\n- map: Abre o mapa\n- chat: Inicia uma conversa\n- shutdown: Desliga o sistema\n- restart: Reinicia o sistema\n- logout: Faz logout do usuário\n- about: Mostra informações sobre este terminal\n- exit: Sai do terminal\n- attack: Simula um ataque sintético',
+    clear: 'Comando temporariamente indisponivel!',
+    greet: 'Olá! Como posso ajudar?',
+    date: new Date().toLocaleDateString(),
+    time: new Date().toLocaleTimeString(),
+    weather: 'A previsão do tempo para hoje é ensolarada.',
+    version: 'Versão 1.0',
+    list: 'Arquivos:\n- arquivo1.txt\n- arquivo2.txt\n- pasta1\n- pasta2',
+    info: 'Sistema Operacional: TerminalOS\nVersão: 3.0\nFabricante: Terminal Inc.',
+    settings: 'Configurações:\n- Preferências de exibição\n- Idioma\n- Segurança',
+    contacts: 'Contatos:\n- Nome: João, Telefone: 123456789\n- Nome: Maria, Telefone: 987654321',
+    calc: 'Aberto: Calculadora',
+    calendar: 'Aberto: Calendário',
+    tasks: 'Tarefas:\n1. Completar o relatório\n2. Reunião com equipe\n3. Comprar mantimentos',
+    notes: 'Aberto: Bloco de notas',
+    email: 'Aberto: Cliente de Email',
+    music: 'Reproduzindo música...',
+    movies: 'Filmes:\n1. Filme1\n2. Filme2\n3. Filme3',
+    games: 'Seleção de Jogos:\n- Jogo1\n- Jogo2\n- Jogo3',
+    news: 'Últimas Notícias:\n- Manchete1\n- Manchete2\n- Manchete3',
+    translate: 'Texto traduzido.',
+    search: 'Resultados da busca...',
+    map: 'Mapa aberto.',
+    chat: 'Conversa iniciada.',
+    shutdown: 'Sistema sendo desligado...',
+    restart: 'Sistema sendo reiniciado...',
+    logout: 'Usuário desconectado.',
+    about: 'TerminalOS é um simulador de terminal HTML/CSS/JS criado por [Seu Nome].',
+    exit: 'Terminal fechado.',
+    synflood: 'Ataque SYN Flood iniciado...',
+    smurf: 'Ataque Smurf iniciado...',
+    ddos: 'Ataque DDoS iniciado...',
+    pingofdeath: 'Ataque Ping of Death iniciado...',
+    xss: 'Ataque XSS detectado e bloqueado...',
+    sqlinjection: 'Ataque de Injeção SQL detectado e bloqueado...',
+    malware: 'Malware detectado e removido...',
+    ransomware: 'Ransomware detectado e bloqueado...',
+    ls: '...',
+    pwd: '/data/data/com.terminal/files/home',
+  };
+
+  function writeToTerminal(text) {
+    const p = document.createElement('p');
+    p.textContent = text;
+    terminal.appendChild(p);
+  }
+
+  input.addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+      const command = input.value.toLowerCase();
+      writeToTerminal('$ ' + command);
+      input.value = '';
+
+      // Verifica se o comando está no objeto de comandos e exibe a resposta correspondente
+      if (commands.hasOwnProperty(command)) {
+        const response = commands[command];
+        writeToTerminal(response);
+      } else {
+        writeToTerminal('Comando não reconhecido. Digite "main" para ver os comandos disponíveis.');
+      }
+    }
+  });
+</script>
+</body>
+</html>

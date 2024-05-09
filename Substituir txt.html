@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Substituir Palavras</title>
+</head>
+<body>
+    <h2>Substituir Palavras</h2>
+    <label for="textoOriginal">Texto Original:</label><br>
+    <textarea id="textoOriginal" rows="4" cols="50"></textarea><br>
+    <label for="palavrasAntigas">Palavras Antigas (separadas por vírgula):</label>
+    <input type="text" id="palavrasAntigas"><br>
+    <label for="palavraNova">Palavra Nova:</label>
+    <input type="text" id="palavraNova"><br><br>
+    <button onclick="substituirPalavras()">Substituir</button><br><br>
+    <label for="textoModificado">Texto Modificado:</label><br>
+    <textarea id="textoModificado" rows="4" cols="50" readonly></textarea>
+
+    <script>
+        function substituirPalavras() {
+            var textoOriginal = document.getElementById('textoOriginal').value;
+            var palavrasAntigas = document.getElementById('palavrasAntigas').value.split(',');
+            var palavraNova = document.getElementById('palavraNova').value;
+
+            for (var i = 0; i < palavrasAntigas.length; i++) {
+                var regex = new RegExp(palavrasAntigas[i], 'g');
+                textoOriginal = textoOriginal.replace(regex, palavraNova);
+            }
+
+            document.getElementById('textoModificado').value = textoOriginal;
+        }
+    </script>
+    <p style="color: grey;">RfStudio</p>
+
+    <script>
+      alert ("Digite várias palavras, separadas por vírgulas, e todas serão substituídas pela palavra nova quando o botão (Substituir) for clicado.")
+    </script>
+    <link rel="stylesheet" href="001/css/Substituir txt.css">
+</body>
+</html>

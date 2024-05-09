@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Separador de Textos</title>
+</head>
+<body>
+    <label for="texto">Insira o texto:</label><br>
+    <input type="text" id="texto" name="texto"><br><br>
+    <button onclick="separarTexto()">Separar Texto</button><br><br>
+    <label for="textoSeparado">Texto Separado:</label><br>
+    <textarea id="textoSeparado" name="textoSeparado" rows="4" cols="50" readonly></textarea>
+
+    <script>
+        function separarTexto() {
+            var texto = document.getElementById("texto").value;
+            var palavras = texto.split(" ");
+            var textoSeparado = '"';
+            for (var i = 0; i < palavras.length; i++) {
+                textoSeparado += palavras[i] + '"';
+                if (i < palavras.length - 1) {
+                    textoSeparado += ',"';
+                }
+            }
+            document.getElementById("textoSeparado").value = textoSeparado;
+        }
+    </script>
+</body>
+</html>

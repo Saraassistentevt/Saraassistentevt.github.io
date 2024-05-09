@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Separador de Palavras</title>
+<script>
+function separarPalavras() {
+    var textoEntrada = document.getElementById("textoEntrada").value;
+    var linhas = textoEntrada.split('\n');
+    if (linhas.length > 300) {
+        alert("Por favor, insira um texto com até 300 linhas.");
+        return;
+    }
+    var palavras = textoEntrada.split(/\s+/);
+    var palavrasUnicas = [...new Set(palavras)];
+    var textoSaida = palavrasUnicas.join(", ");
+    document.getElementById("textoSaida").textContent = textoSaida;
+}
+</script>
+</head>
+<body>
+<h2>Separador de Palavras</h2>
+<label for="textoEntrada">Insira o texto (até 300 linhas):</label><br>
+<textarea id="textoEntrada" rows="10" cols="50"></textarea><br>
+<button onclick="separarPalavras()">Separar Palavras</button><br>
+<label for="textoSaida">Palavras únicas:</label><br>
+<p id="textoSaida"></p>
+</body>
+</html>

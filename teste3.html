@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reprodutor de Música</title>
+</head>
+<body>
+
+<input type="file" id="audioFiles" accept="audio/*" multiple onchange="loadAudios(this.files)">
+<div id="playlist"></div>
+<audio controls id="audioPlayer">
+  Seu navegador não suporta o elemento de áudio.
+</audio>
+
+<script>
+function loadAudios(files) {
+  var playlist = document.getElementById('playlist');
+  playlist.innerHTML = '';
+  
+  for (var i = 0; i < files.length; i++) {
+    var audio = document.createElement('audio');
+    audio.src = URL.createObjectURL(files[i]);
+    audio.controls = true;
+    playlist.appendChild(audio);
+  }
+}
+</script>
+
+</body>
+</html>
