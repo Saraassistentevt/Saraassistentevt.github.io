@@ -946,7 +946,7 @@ function getBotResponse(userInput) {
                     return;
                 }
             }
-            var audioNotFound = new Audio('img-vd-ad/Sara1.mp3');
+            var audioNotFound = new Audio('#.mp3');
             audioNotFound.play();
             simulateTyping("Desculpe, não entendi sua pergunta. Ainda não estou completa, se foi uma pergunta simples, mande uma mensagem para o desenvolvedor adicionar uma resposta! <a href='mailto:rfpds4880@gmail.com?subject=Olá gostaria de obter ajuda com?&body='>Clique aqui</a> para enviar sua pergunta por e-mail.");
         }
