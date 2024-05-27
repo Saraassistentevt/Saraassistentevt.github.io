@@ -1,71 +1,63 @@
 var voices = [];
 var selectedVoice;
-var greetingDisplayed = false; // Variável para controlar se a saudação já foi exibida
+var greetingDisplayed = false;
+
+// Verifica se o navegador suporta synthesis de fala
+var speechSynthesisSupported = 'speechSynthesis' in window;
+var speechRecognitionSupported = 'SpeechRecognition' in window || 'webkitSpeechRecognition' in window;
 
 // Carrega as vozes disponíveis
 function loadVoices() {
-    voices = window.speechSynthesis.getVoices();
-    // Tenta encontrar uma voz feminina
-    selectedVoice = voices.find(voice => voice.name.toLowerCase().includes("female") || voice.name.toLowerCase().includes("feminina") || voice.name.includes("Google português do Brasil"));
-    // Se não encontrar, escolhe a primeira voz disponível
-    if (!selectedVoice) {
-        selectedVoice = voices[0];
-    }
+    if (speechSynthesisSupported) {
+        voices = window.speechSynthesis.getVoices();
+        selectedVoice = voices.find(voice => voice.name.toLowerCase().includes("female") || voice.name.toLowerCase().includes("feminina") || voice.name.includes("Google português do Brasil"));
+        if (!selectedVoice) {
+            selectedVoice = voices[0];
+        }
 
-    // Depois de carregar as vozes, exibe a saudação se ainda não foi exibida
-    if (!greetingDisplayed) {
-        displayGreeting();
-        greetingDisplayed = true; // Marca que a saudação foi exibida
+        if (!greetingDisplayed) {
+            displayGreeting();
+            greetingDisplayed = true;
+        }
+    } else {
+        console.warn("Speech Synthesis não é suportado neste navegador.");
+        // Continue sem síntese de fala
+        if (!greetingDisplayed) {
+            displayGreetingTextOnly();
+            greetingDisplayed = true;
+        }
     }
 }
 
-// Espera as vozes serem carregadas e depois executa a função loadVoices
-window.speechSynthesis.onvoiceschanged = function() {
-    loadVoices();
-};
+if (speechSynthesisSupported) {
+    window.speechSynthesis.onvoiceschanged = function() {
+        loadVoices();
+    };
+}
 
 // Função para converter texto em fala
 function speak(text) {
-    var msg = new SpeechSynthesisUtterance(text);
-    if (selectedVoice) {
+    if (speechSynthesisSupported && selectedVoice) {
+        var msg = new SpeechSynthesisUtterance(text);
         msg.voice = selectedVoice;
+        window.speechSynthesis.speak(msg);
+    } else {
+        console.warn("Speech Synthesis não é suportado neste navegador.");
     }
-    window.speechSynthesis.speak(msg);
 }
 
 var responses = {
-    // Pessoal chat
-    "olá": "Olá, meu nome é Sara! Como posso ajudá-lo?",
-    "ola": "Olá, meu nome é Sara! Como posso ajudá-lo?",
+    "olá": "Olá meu nome é Sara! como posso ajuda-lo?",
+    "ola": "Olá meu nome é Sara! como posso ajuda-lo?"
 };
 
 var mathResponses = {
-    "+": function(num1, num2) {
-        return num1 + num2;
-    },
-    "-": function(num1, num2) {
-        return num1 - num2;
-    },
-    "×": function(num1, num2) {
-        return num1 * num2;
-    },
-    "/": function(num1, num2) {
-        if (num2 !== 0) {
-            return num1 / num2;
-        } else {
-            return "Não é possível dividir por zero.";
-        }
-    },
-    "^": function(num1, num2) {
-        return Math.pow(num1, num2);
-    },
-    "sqrt": function(num) {
-        if (num >= 0) {
-            return Math.sqrt(num);
-        } else {
-            return "Número negativo não tem raiz quadrada real.";
-        }
-    }
+    "+": (num1, num2) => num1 + num2,
+    "-": (num1, num2) => num1 - num2,
+    "×": (num1, num2) => num1 * num2,
+    "/": (num1, num2) => num2 !== 0 ? num1 / num2 : "Não é possível dividir por zero.",
+    "^": (num1, num2) => Math.pow(num1, num2),
+    "sqrt": num => num >= 0 ? Math.sqrt(num) : "Número negativo não tem raiz quadrada real."
 };
 
 function startConversation() {
@@ -76,16 +68,14 @@ function startConversation() {
         "O que você mais gosta de fazer nas horas vagas?",
         "Você já viajou para algum lugar interessante?"
     ];
-
-    var randomIndex = Math.floor(Math.random() * randomTopics.length);
-    var randomTopic = randomTopics[randomIndex];
+    var randomTopic = randomTopics[Math.floor(Math.random() * randomTopics.length)];
     simulateTyping(randomTopic);
 }
 
 var timeout;
 function resetTimeout() {
     clearTimeout(timeout);
-    timeout = setTimeout(startConversation, 28 * 60 * 1000); // 28 minutos em milissegundos
+    timeout = setTimeout(startConversation, 28 * 60 * 1000);
 }
 
 function onUserMessage() {
@@ -95,19 +85,19 @@ function onUserMessage() {
 resetTimeout();
 
 function alertaInatividade() {
-    setTimeout(function() {
+    setTimeout(() => {
         var audioAlerta = new Audio('caminho/do/seu/audio/alerta/teste/rf.mp3');
         audioAlerta.play();
-    }, 5 * 60 * 1000); // 5 minutos em milissegundos
+    }, 5 * 60 * 1000);
 }
 
 alertaInatividade();
 
 var idleTimer;
 function startIdleTimer() {
-    idleTimer = setTimeout(function() {
+    idleTimer = setTimeout(() => {
         askQuestion();
-    }, 30 * 60 * 1000); // 30 minutos em milissegundos
+    }, 30 * 60 * 1000);
 }
 
 function resetIdleTimer() {
@@ -121,31 +111,22 @@ function askQuestion() {
 }
 
 document.addEventListener("click", resetIdleTimer);
-
 startIdleTimer();
 
 function checkResponse(userInput) {
     var normalizedInput = userInput.trim().toLowerCase();
-    if (responses.hasOwnProperty(normalizedInput)) {
-        return responses[normalizedInput];
-    }
-    return null;
+    return responses[normalizedInput] || null;
 }
 
 function getGreeting() {
-    var currentTime = new Date();
-    var currentHour = currentTime.getHours();
-    var greeting;
-
+    var currentHour = new Date().getHours();
     if (currentHour < 12) {
-        greeting = "Bom dia!🥱";
+        return "Bom dia!🥱";
     } else if (currentHour < 18) {
-        greeting = "Boa tarde!🤪";
+        return "Boa tarde!🤪";
     } else {
-        greeting = "Boa noite!😴";
+        return "Boa noite!😴";
     }
-
-    return greeting;
 }
 
 function displayGreeting() {
@@ -156,7 +137,17 @@ function displayGreeting() {
 
     var greeting = getGreeting();
     botMessageElement.innerHTML = greeting;
-    speak(greeting); // Adiciona a fala
+    speak(greeting);
+}
+
+function displayGreetingTextOnly() {
+    var chatContainer = document.getElementById("chat-container");
+    var botMessageElement = document.createElement("div");
+    botMessageElement.classList.add("bot-message");
+    chatContainer.appendChild(botMessageElement);
+
+    var greeting = getGreeting();
+    botMessageElement.innerHTML = greeting;
 }
 
 function simulateTyping(response) {
@@ -167,10 +158,10 @@ function simulateTyping(response) {
 
     botMessageElement.innerHTML = "Sara está digitando...";
 
-    setTimeout(function() {
+    setTimeout(() => {
         botMessageElement.innerHTML = response;
         chatContainer.scrollTop = chatContainer.scrollHeight;
-        speak(response); // Adiciona a fala
+        speak(response);
     }, 1000);
 }
 
@@ -185,9 +176,8 @@ function getBotResponse(userInput) {
             var num1 = parseFloat(match[1]);
             var operator = match[2];
             var num2 = parseFloat(match[3]);
-            var result;
             if (mathResponses.hasOwnProperty(operator)) {
-                result = mathResponses[operator](num1, num2);
+                var result = mathResponses[operator](num1, num2);
                 simulateTyping("O resultado é " + result + ".");
             } else {
                 simulateTyping("Operador matemático inválido.");
@@ -198,35 +188,39 @@ function getBotResponse(userInput) {
     }
 }
 
-// Adiciona o reconhecimento de fala
-var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-recognition.lang = 'pt-BR';
-recognition.continuous = false;
-recognition.interimResults = false;
+if (speechRecognitionSupported) {
+    var recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'pt-BR';
+    recognition.continuous = false;
+    recognition.interimResults = false;
 
-recognition.onresult = function(event) {
-    var userInput = event.results[0][0].transcript;
-    var chatContainer = document.getElementById("chat-container");
-    var userMessageElement = document.createElement("div");
-    userMessageElement.classList.add("user-message");
-    userMessageElement.innerHTML = userInput;
-    chatContainer.appendChild(userMessageElement);
-    chatContainer.scrollTop = chatContainer.scrollHeight;
-    getBotResponse(userInput);
-};
+    recognition.onresult = function(event) {
+        var userInput = event.results[0][0].transcript;
+        var chatContainer = document.getElementById("chat-container");
+        var userMessageElement = document.createElement("div");
+        userMessageElement.classList.add("user-message");
+        userMessageElement.innerHTML = userInput;
+        chatContainer.appendChild(userMessageElement);
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+        getBotResponse(userInput);
+    };
 
-recognition.onerror = function(event) {
-    console.error("Erro no reconhecimento de fala: " + event.error);
-};
+    recognition.onerror = function(event) {
+        console.error("Erro no reconhecimento de fala: " + event.error);
+    };
 
-function startRecognition() {
-    recognition.start();
+    function startRecognition() {
+        recognition.start();
+    }
+} else {
+    console.warn("Speech Recognition não é suportado neste navegador.");
+    function startRecognition() {
+        console.warn("Speech Recognition não é suportado neste navegador.");
+    }
 }
 
 // Iniciar carregamento das vozes ao carregar a página
-window.addEventListener('load', () => {
-    loadVoices();
-});
+window.addEventListener('load', loadVoices);
 
 // Botão para iniciar a gravação
 var recordButton = document.createElement("button");
