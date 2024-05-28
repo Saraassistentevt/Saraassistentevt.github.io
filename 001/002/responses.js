@@ -47,8 +47,8 @@ function speak(text) {
 }
 
 var responses = {
-    "olá": "Olá meu nome é Sara! como posso ajuda-lo?",
-    "ola": "Olá meu nome é Sara! como posso ajuda-lo?"
+    "olá": "Olá meu nome {{username}} é Sara! como posso ajuda-lo?",
+    "Oi": "Olá {{username}} como posso ajuda-lo?",
 };
 
 var mathResponses = {
@@ -151,6 +151,12 @@ function displayGreetingTextOnly() {
 }
 
 function simulateTyping(response) {
+    // Verificar se a resposta contém o símbolo específico
+    if (response.includes("{{username}}")) {
+        // Substituir o símbolo pelo nome do usuário (padrão: "Usuário")
+        response = response.replace("{{username}}", "Rafa");
+    }
+    
     var chatContainer = document.getElementById("chat-container");
     var botMessageElement = document.createElement("div");
     botMessageElement.classList.add("bot-message");
