@@ -165,6 +165,55 @@ function simulateTyping(response) {
     }, 1000);
 }
 
+// procura a resposta mais adequada 1
+function levenshteinDistance(s1, s2) {
+    var len1 = s1.length;
+    var len2 = s2.length;
+    var matrix = [];
+
+    // Inicialização da matriz
+    for (var i = 0; i <= len1; i++) {
+        matrix[i] = [i];
+    }
+    for (var j = 0; j <= len2; j++) {
+        matrix[0][j] = j;
+    }
+
+    // Cálculo da distância de Levenshtein
+    for (var i = 1; i <= len1; i++) {
+        for (var j = 1; j <= len2; j++) {
+            var cost = (s1[i - 1] === s2[j - 1]) ? 0 : 1;
+            matrix[i][j] = Math.min(
+                matrix[i - 1][j] + 1, // Deletar
+                matrix[i][j - 1] + 1, // Inserir
+                matrix[i - 1][j - 1] + cost // Substituir
+            );
+        }
+    }
+
+    return matrix[len1][len2];
+}
+
+function checkResponse(userInput) {
+    var normalizedInput = userInput.trim().toLowerCase();
+    var minDistance = Number.MAX_VALUE;
+    var bestResponse = null;
+
+    for (var key in responses) {
+        if (responses.hasOwnProperty(key)) {
+            var response = responses[key];
+            var distance = levenshteinDistance(normalizedInput, key);
+            if (distance < minDistance) {
+                minDistance = distance;
+                bestResponse = response;
+            }
+        }
+    }
+
+    return bestResponse;
+}
+// procura a resposta mais adequada 1
+
 function getBotResponse(userInput) {
     var response = checkResponse(userInput);
     if (response) {
@@ -228,3 +277,5 @@ recordButton.innerHTML = "Falar";
 recordButton.classList.add("record-button");
 recordButton.onclick = startRecognition;
 document.body.appendChild(recordButton);
+     
+   
