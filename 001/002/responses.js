@@ -48,15 +48,12 @@ function speak(text) {
 var responses = {
   
 // Pessoal chat
+"Olá": "Olá {{username}} como posso ajuda-lo?",
+"Oi": "Oi {{username}}. Em que posso ser útil?",
+"Oi Sara": "Oi {{username}}. Em que posso ser útil?",
 
-"Olá": "Olá meu nome é Sara! como posso ajuda-lo?",
-"Olá ": "Olá meu nome é Sara, como posso ajuda-lo?",
-"Ola": "Olá meu nome é Sara! como posso ajuda-lo?",
-"Ola ": "Olá meu nome é Sara! como posso ajuda-lo?",
-"Oi": "Oi sou Sara. Em que posso ser útil para você?",
-"Oi ": "Oi sou Sara. Em que posso ser útil para você?",
-"Oii": "Oi sou Sara. Em que posso ser útil para você?",
-"Oiii": "Oi sou Sara. Em que posso ser útil para você?",
+"Quem te criou?": "Fui criada pelo RfStudio",
+"te criou?": "Fui criada pelo RfStudio.",
 
 // TESTE 2k+
 "Olá! Como vai você hoje?": "Olá! Estou bem, obrigado por perguntar. E você?",
@@ -629,6 +626,8 @@ var responses = {
 "Como você está?": "Tô bem! obrigado(a) por perguntar😊",
 "Como você está": "Tô bem! obrigado(a) por perguntar😊",
 "Como você está ": "Tô bem! obrigado(a) por perguntar😊",
+"Como se tá?": "Tô bem! obrigado(a) por perguntar😊",
+
 
 // Oque faz de bom
 
@@ -754,13 +753,9 @@ var responses = {
 "Rfpds ": "RFPDS e uma empresa que está alcançado seus objetivos de pouco a pouco, ele tabem e um desenvolvedor de software etc... No momento ele e conhecido como (RFPDS) Alcançado muitos fãs ao redor do mundo!",
 
 // Termo de uso
+"Termo": "Licença de Uso da assistente   Site/App<br>Este site é operado por [RFPDS]. Ao acessar este site, você concorda em cumprir estes termos de serviço, todas as leis e regulamentos aplicáveis e concorda que é responsável pelo cumprimento de quaisquer leis locais aplicáveis. Se você não concordar com algum destes termos, você está proibido de usar ou acessar este site. Os materiais contidos neste site são protegidos por leis de direitos autorais e marcas comerciais aplicáveis.<br>Uso de Licença<br>É concedida permissão para baixar temporariamente uma cópia dos materiais (informações ou software) no site [RFPDS] para visualização pessoal e não comercial transitória apenas. Esta é a concessão de uma licença, não uma transferência de título, e sob esta licença você não pode:<br>- modificar ou copiar os materiais;<br>- usar os materiais para qualquer finalidade comercial, ou para qualquer exibição pública (comercial ou não comercial);<br>- tentar descompilar ou fazer engenharia reversa de qualquer software contido no site;<br>- remover quaisquer direitos autorais ou outras notações de propriedade dos materiais; ou<br>- transferir os materiais para outra pessoa ou (espelhe) os materiais em qualquer outro servidor.<br>Esta licença será automaticamente rescindida se você violar alguma dessas restrições e poderá ser rescindida por [RFPDS] a qualquer momento. Ao encerrar a visualização destes materiais ou após o término desta licença, você deve destruir quaisquer materiais baixados em sua posse, seja em formato eletrônico ou impresso.<br>Isenção de Responsabilidade<br>Os materiais no site da [RFPDS] são fornecidos (como estão). [RFPDS] não oferece garantias, expressas ou implícitas, e por este meio renuncia e nega todas as outras garantias, incluindo, sem limitação, garantias implícitas ou condições de comercialização, adequação a um propósito específico ou não violação de propriedade intelectual ou outra violação de direitos.<br>Além disso, [RFPDS] não garante ou faz qualquer representação sobre a precisão, os resultados prováveis ou a confiabilidade do uso dos materiais em seu site ou de outra forma relacionados a esses materiais ou em sites vinculados a este site.<br>Limitações<br>Em nenhum caso [RFPDS] ou seus fornecedores serão responsáveis por quaisquer danos (incluindo, sem limitação, danos no aparelho, por perda de dados ou lucro, ou devido a interrupção de negócios) decorrentes do uso ou da incapacidade de usar os materiais em [RFPDS], mesmo que [RFPDS] ou um representante autorizado da [RFPDS] tenha sido notificado oralmente ou por escrito da possibilidade de tais danos. Como algumas jurisdições não permitem limitações sobre garantias implícitas, ou limitações de responsabilidade por danos consequentes ou incidentais, essas limitações podem não se aplicar a você.<br>Revisões e Erratas<br>Os materiais exibidos no site da [RFPDS] podem incluir erros técnicos, tipográficos ou fotográficos. [RFPDS] não garante que qualquer material em seu site seja preciso, completo ou atual. [RFPDS] pode fazer alterações nos materiais contidos em seu site a qualquer momento, sem aviso prévio. [RFPDS] não se compromete a atualizar os materiais.<br>Links<br>[RFPDS] não revisou todos os sites vinculados ao seu site e não é responsável pelo conteúdo de nenhum site vinculado. A inclusão de qualquer link não implica endosso por [RFPDS] do site. O uso de qualquer site vinculado é por conta e risco do usuário.<br>Modificações<br>[RFPDS] pode revisar estes termos de serviço para seu site a qualquer momento, sem aviso prévio. Ao usar este site, você concorda em ficar vinculado à versão atual desses termos de serviço.<br>Lei Aplicável<br>Estes termos e condições são regidos e interpretados de acordo com as leis do estado de [EM ANÁLISE POR RF], e você se submete irrevogavelmente à jurisdição exclusiva dos tribunais naquele estado ou localidade.<br>Conteúdo +18<br>Conteúdos +18 são proibidos devido as idades e usos em legal por exemplo porno, infantil etc, restrigimos isso devido a muitos virus e mavalweres, que avia nos links gerados por nos, se ouver coque conteúdo +18 etc não evite a nos contatar.<br>Política de Privacidade<br>A sua privacidade é importante para nós. É política da [RFPDS] respeitar a sua privacidade em relação a qualquer informação que possamos coletar no site [RFPDS], e outros sites que possuímos e operamos, [RFPDS] Não coleta nenhum dado dos usuários.<br>[RFPDS] pode coletar informações pessoais que podem ser usadas para identificá-lo. Podemos coletar, usar, manter e compartilhar suas informações pessoais com terceiros de confiança.<br>Ao usar o site [RFPDS], você concorda com a coleta e uso de informações de acordo com esta política.<br>Se você tiver alguma dúvida sobre esta licença de uso do site, entre em contato conosco.",
 
-"Termo": "Não temos termo de uso, Devido alguns problemas que estamos concertado!",
-"Termo ": "Não temos termo de uso, Devido alguns problemas que estamos concertado!",
-"Termos": "Não temos termo de uso, Devido alguns problemas que estamos concertado!",
-"Termos ": "Não temos termo de uso, Devido alguns problemas que estamos concertado!",
-"termo": "Não temos termo de uso, Devido alguns problemas que estamos concertado!",
-"termo ": "Não temos termo de uso, Devido alguns problemas que estamos concertado!",
+
          
 // Sites
 "Teste": "<a href='https://exemplo.com'>Clique aqui</a> para visitar nosso site útil.",
@@ -1025,4 +1020,4 @@ recordButton.classList.add("record-button");
 recordButton.onclick = startRecognition;
 document.body.appendChild(recordButton);
      
-     
+  
